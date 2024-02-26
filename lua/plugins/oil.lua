@@ -1,0 +1,13 @@
+local add = MiniDeps.add
+local later = MiniDeps.later
+
+add("stevearc/oil.nvim")
+
+later(function()
+  require("oil").setup()
+  vim.keymap.set("n", "-", "<cmd>Oil<cr>", { silent = true })
+  vim.keymap.set("n", "fm", "<cmd>Oil<cr>", { silent = true, desc = "Explore" })
+  vim.keymap.set("n", "fM", function()
+    require("oil").get_current_dir()
+  end, { silent = true, desc = "Explore" })
+end)
