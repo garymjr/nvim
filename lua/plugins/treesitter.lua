@@ -1,17 +1,10 @@
-local add = MiniDeps.add
-local later = MiniDeps.later
-
-add({
-  source = "nvim-treesitter/nvim-treesitter",
-  hooks = { post_checkout = function() vim.cmd("TSUpdate") end }
-})
-
-later(function()
+MiniDeps.later(function()
   require("nvim-treesitter.configs").setup({
     highlight = { enable = true },
     indent = { enable = true },
     ensure_installed = {
       "bash",
+      "csv",
       "diff",
       "go",
       "gomod",

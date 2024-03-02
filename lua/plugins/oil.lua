@@ -1,9 +1,4 @@
-local add = MiniDeps.add
-local later = MiniDeps.later
-
-add("stevearc/oil.nvim")
-
-later(function()
+MiniDeps.later(function()
   require("oil").setup()
   vim.keymap.set("n", "-", "<cmd>Oil<cr>", { silent = true })
   vim.keymap.set("n", "fm", "<cmd>Oil<cr>", { silent = true, desc = "Explore" })

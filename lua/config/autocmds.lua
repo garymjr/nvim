@@ -99,28 +99,3 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
-
--- Lsp on_attach config
-vim.api.nvim_create_autocmd({ "LspAttach" }, {
-  group = augroup("lsp_on_attach"),
-  callback = function(args)
-    local bufnr = args.buf
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-
-    vim.bo[bufnr].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
-
-    if client.name == "gopls" then
-      if not client.server_capabilities.semanticTokensProvider then
-        local semantic = client.config.capabilities.textDocument.semanticTokens
-        client.server_capabilities.semanticTokensProvider = {
-          full = true,
-          legend = {
-            tokenTypes = semantic.tokenTypes,
-            tokenModifiers = semantic.tokenModifiers,
-          },
-          range = true,
-        }
-      end
-    end
-  end,
-})

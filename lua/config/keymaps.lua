@@ -1,6 +1,6 @@
 local function map(mode, lhs, rhs, opts)
-	opts = vim.tbl_deep_extend("force", { silent = true }, opts or {})
-	vim.keymap.set(mode, lhs, rhs, opts)
+  opts = vim.tbl_deep_extend("force", { silent = true }, opts or {})
+  vim.keymap.set(mode, lhs, rhs, opts)
 end
 
 -- better up/down
@@ -22,7 +22,11 @@ map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 
 -- Clear search with <esc>
-map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
+map("i", "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
+map("n", "<esc>", function()
+  vim.cmd.noh()
+  vim.snippet.exit()
+end, { desc = "Escape and clear hlsearch" })
 
 -- Clear search, diff update and redraw
 -- taken from runtime/lua/_editor.lua
@@ -79,7 +83,8 @@ map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
 map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
 -- toggle options
-map("n", "<leader>uT", function() if vim.b.ts_highlight then vim.treesitter.stop() else vim.treesitter.start() end end, { desc = "Toggle Treesitter Highlight" })
+map("n", "<leader>uT", function() if vim.b.ts_highlight then vim.treesitter.stop() else vim.treesitter.start() end end,
+  { desc = "Toggle Treesitter Highlight" })
 
 -- quit
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
@@ -106,3 +111,30 @@ map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
 map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+
+-- snippets
+map("i", "<Tab>", function()
+  if vim.snippet.jumpable(1) then
+    vim.schedule(function()
+      vim.snippet.jump(1)
+    end)
+    return
+  end
+  return "<Tab>"
+end, { expr = true })
+
+map("s", "<Tab>", function()
+  vim.schedule(function()
+    vim.snippet.jump(1)
+  end)
+end)
+
+map({ "i", "s" }, "<S-Tab>", function()
+  if vim.snippet.jumpable(-1) then
+    vim.schedule(function()
+      vim.snippet.jump(-1)
+    end)
+    return
+  end
+  return "<S-Tab>"
+end, { expr = true })

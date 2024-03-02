@@ -1,13 +1,60 @@
-local add = MiniDeps.add
 local later = MiniDeps.later
 
-add("williamboman/mason.nvim")
-add("williamboman/mason-lspconfig.nvim")
-add("neovim/nvim-lspconfig")
-add("folke/neodev.nvim")
-
-later(require("mason").setup)
-later(require("mason-lspconfig").setup)
+local function setup_keymaps(bufnr)
+  vim.keymap.set("n", "<leader>cl", "<cmd>LspInfo<cr>", { silent = true, desc = "LspInfo" })
+  vim.keymap.set(
+    "n",
+    "gd",
+    vim.lsp.buf.definition,
+    { silent = true, buffer = bufnr, desc = "Goto definition" }
+  )
+  vim.keymap.set(
+    "n",
+    "gD",
+    vim.lsp.buf.declaration,
+    { silent = true, buffer = bufnr, desc = "Goto declaration" }
+  )
+  vim.keymap.set(
+    "n",
+    "gI",
+    vim.lsp.buf.implementation,
+    { silent = true, buffer = bufnr, desc = "Goto implementation" }
+  )
+  vim.keymap.set(
+    "n",
+    "gr",
+    vim.lsp.buf.references,
+    { silent = true, buffer = bufnr, desc = "Find references" }
+  )
+  vim.keymap.set(
+    "n",
+    "gy",
+    vim.lsp.buf.type_definition,
+    { silent = true, buffer = bufnr, desc = "Goto type definition" }
+  )
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true, buffer = bufnr })
+  vim.keymap.set(
+    "n",
+    "gK",
+    vim.lsp.buf.signature_help,
+    { silent = true, buffer = bufnr, desc = "Signature help" }
+  )
+  vim.keymap.set(
+    "n",
+    "<leader>ca",
+    vim.lsp.buf.code_action,
+    { silent = true, buffer = bufnr, desc = "Code action" }
+  )
+  vim.keymap.set("n", "<leader>cA", function()
+    vim.lsp.buf.code_action({ context = { only = { "source" } } })
+  end, { silent = true, buffer = bufnr, desc = "Source action" })
+  vim.keymap.set(
+    "n",
+    "<leader>cr",
+    vim.lsp.buf.rename,
+    { silent = true, buffer = bufnr, desc = "Rename" }
+  )
+end
 
 later(function()
   vim.diagnostic.config({
@@ -30,23 +77,8 @@ end)
 
 later(require("neodev").setup)
 
-later(function()
-  local luals_root = vim.fn.stdpath('data') .. '/mason'
-  local luals_binary = luals_root .. "/bin/lua-language-server"
-  local lspconfig = require("lspconfig")
-
-  lspconfig.lua_ls.setup({
-    handlers = {
-      ["textDocument/definition"] = function(err, result, ctx, config)
-        if type(result) == "table" then result = { result[1] } end
-        vim.lsp.handlers["textDocument/definition"](err, result, ctx, config)
-      end,
-    },
-    cmd = { luals_binary },
-    on_attach = function(client)
-      client.server_capabilities.completionProvider.triggerCharacters = { '.', ':' }
-    end,
-    root_dir = function(fname) return lspconfig.util.root_pattern(".git")(fname) or lspconfig.util.path.dirname(fname) end,
+local servers = {
+  lua_ls = {
     settings = {
       Lua = {
         runtime = {
@@ -59,18 +91,31 @@ later(function()
           workspaceDelay = -1,
         },
         workspace = {
-          ignoreSubmodules = true,
+          checkThirdParty = false,
+          library = {
+            unpack(vim.api.nvim_get_runtime_file('', true)),
+          },
         },
         telemetry = {
           enable = false,
         },
       },
     },
-  })
-end)
-
-later(function()
-  require("lspconfig").gopls.setup({
+  },
+  gopls = {
+    on_attach = function(client)
+      if not client.server_capabilities.semanticTokensProvider then
+        local semantic = client.config.capabilities.textDocument.semanticTokens
+        client.server_capabilities.semanticTokensProvider = {
+          full = true,
+          legend = {
+            tokenTypes = semantic.tokenTypes,
+            tokenModifiers = semantic.tokenModifiers,
+          },
+          range = true,
+        }
+      end
+    end,
     settings = {
       gopls = {
         codelenses = {
@@ -97,15 +142,33 @@ later(function()
         semanticTokens = true,
       },
     },
-  })
-end)
-
-later(function()
-  require("lspconfig").tsserver.setup({
+  },
+  tsserver = {
     settings = {
       completions = {
         completeFunctionCalls = true,
       },
+    },
+  },
+}
+
+later(require("mason").setup)
+later(function()
+  require("mason-lspconfig").setup({
+    handlers = {
+      function(server_name)
+        local server = servers[server_name] or {}
+        local on_attach = server.on_attach
+        server.on_attach = function(client, bufnr)
+          vim.bo[bufnr].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+          setup_keymaps(bufnr)
+          if on_attach then
+            on_attach(client, bufnr)
+          end
+        end
+
+        require("lspconfig")[server_name].setup(server)
+      end,
     },
   })
 end)
