@@ -1,3 +1,10 @@
+MiniDeps.add({
+  source = "nvim-treesitter/nvim-treesitter",
+  hooks = {
+    post_checkout = function() vim.cmd("TSUpdate") end,
+  },
+})
+
 MiniDeps.later(function()
   require("nvim-treesitter.configs").setup({
     highlight = { enable = true },
