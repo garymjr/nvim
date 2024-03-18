@@ -24,6 +24,7 @@ MiniDeps.later(function()
       typescriptreact = { "biome" },
       javascript = { "biome" },
       json = { "biome" },
+      go = { "goimports", "gofumpt" },
     },
     format_on_save = {
       timeout_ms = 500,

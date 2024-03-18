@@ -23,10 +23,10 @@ end)
 
 later(function()
   require("mini.bufremove").setup()
-  vim.keymap.set("n", "<leader>bd", MiniBufremove.delete, {silent = true, desc = "Delete buffer" })
+  vim.keymap.set("n", "<leader>bd", MiniBufremove.delete, { silent = true, desc = "Delete buffer" })
   vim.keymap.set("n", "<leader>bD", function()
     MiniBufremove.delete(0, true)
-  end, {silent = true, desc = "Delete buffer (force)" })
+  end, { silent = true, desc = "Delete buffer (force)" })
 end)
 
 later(function()
@@ -142,8 +142,18 @@ later(function()
   vim.keymap.set("n", '<leader>s"', "<cmd>Pick registers<cr>", { silent = true, desc = "Registers" })
   vim.keymap.set("n", "<leader>sb", "<cmd>Pick buf_lines<cr>", { silent = true, desc = "Buffer" })
   vim.keymap.set("n", "<leader>sc", "<cmd>Pick commands<cr>", { silent = true, desc = "Commands" })
-  vim.keymap.set("n", "<leader>sd", "<cmd>Pick scope='current'<cr>", { silent = true, desc = "Document diagnostics" })
-  vim.keymap.set("n", "<leader>sD", "<cmd>Pick scope='all'<cr>", { silent = true, desc = "Workspace diagnostics" })
+  vim.keymap.set(
+    "n",
+    "<leader>sd",
+    "<cmd>Pick diagnostic scope='current'<cr>",
+    { silent = true, desc = "Document diagnostics" }
+  )
+  vim.keymap.set(
+    "n",
+    "<leader>sD",
+    "<cmd>Pick diagnostic scope='all'<cr>",
+    { silent = true, desc = "Workspace diagnostics" }
+  )
   vim.keymap.set("n", "<leader>sg", "<cmd>Pick grep_live<cr>", { silent = true, desc = "Grep" })
   vim.keymap.set(
     "n",
@@ -161,9 +171,15 @@ later(function()
   vim.keymap.set("n", "<leader>sk", "<cmd>Pick keymaps<cr>", { silent = true, desc = "Keymaps" })
   vim.keymap.set("n", "<leader>sm", "<cmd>Pick marks<cr>", { silent = true, desc = "Marks" })
   vim.keymap.set("n", "<leader>so", "<cmd>Pick options<cr>", { silent = true, desc = "Options" })
-  vim.keymap.set("n", "<leader>sr", "<cmd>Pick resume<cr>",{ silent = true, desc = "Resume" })
-  vim.keymap.set("n", "<leader>ss", "<cmd>Pick lsp scope='document_symbol'<cr>", { silent = true, desc = "Document symbol" })
-  vim.keymap.set("n", "<leader>sS", "<cmd>Pick lsp scope='workspace_symbol'<cr>", { silent = true, desc = "Workspace symbol" })
+  vim.keymap.set("n", "<leader>sr", "<cmd>Pick resume<cr>", { silent = true, desc = "Resume" })
+  vim.keymap.set("n", "<leader>ss", "<cmd>Pick lsp scope='document_symbol'<cr>",
+    { silent = true, desc = "Document symbol" })
+  vim.keymap.set("n", "<leader>sS", "<cmd>Pick lsp scope='workspace_symbol'<cr>",
+    { silent = true, desc = "Workspace symbol" })
+end)
+
+now(function()
+  require("mini.starter").setup()
 end)
 
 later(function()

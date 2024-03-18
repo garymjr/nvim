@@ -138,3 +138,7 @@ map({ "i", "s" }, "<S-Tab>", function()
   end
   return "<S-Tab>"
 end, { expr = true })
+
+-- better cursor movement
+map("n", "gh", "_", { silent = true, desc = "Move to first non-blank character" })
+map("n", "gl", "$", { silent = true, desc = "Move to end of line" })
