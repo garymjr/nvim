@@ -14,6 +14,9 @@ require("lazy").setup({
 		lazy = true,
 		version = false,
 	},
+  dev = {
+    path = "~/code",
+  },
 	install = { colorscheme = { "tokyonight", "habamax" } },
 	checker = { enabled = true, notify = false },
   change_detection = { enabled = true, notify = false },
