@@ -5,6 +5,9 @@ return {
 			opts.ensure_installed = {
 				"bash",
 				"diff",
+				"eex",
+				"elixir",
+				"heex",
 				"html",
 				"javascript",
 				"jsdoc",
