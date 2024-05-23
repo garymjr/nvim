@@ -4,6 +4,7 @@ local opt = vim.opt
 
 opt.cursorline = false
 opt.timeoutlen = 300
+opt.swapfile = false
 
 vim.filetype.add({
 	extension = {
