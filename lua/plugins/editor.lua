@@ -23,7 +23,7 @@ return {
 			{
 				"<leader>fM",
 				function()
-					require("oil").open(vim.uv.cwd())
+					require("oil").open(vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h"))
 				end,
 				desc = "Open Oil (cwd)",
 			},
