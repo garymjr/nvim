@@ -3,6 +3,13 @@ return {
 	{ "nvim-spectre", enabled = false },
 	{ "flash.nvim", enabled = false },
 	{
+		"telescope.nvim",
+		opts = function(_, opts)
+			local actions = require("telescope.actions.layout")
+			opts.defaults.mappings.i["<c-o>"] = actions.toggle_preview
+		end,
+	},
+	{
 		"stevearc/oil.nvim",
 		cmd = "Oil",
 		keys = {
