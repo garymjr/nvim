@@ -1,10 +1,11 @@
 vim.g.autoformat = false
+vim.g.trouble_lualine = false
 
 local opt = vim.opt
 
 opt.cursorline = false
-opt.timeoutlen = 300
 opt.swapfile = false
+opt.timeoutlen = 300
 
 vim.filetype.add({
 	extension = {
