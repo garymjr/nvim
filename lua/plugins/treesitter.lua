@@ -2,33 +2,14 @@ return {
 	{
 		"nvim-treesitter",
 		opts = function(_, opts)
-			opts.ensure_installed = {
-				"bash",
-				"diff",
+			opts.ensure_installed = vim.tbl_deep_extend("force", {}, opts.ensure_installed, {
+        "diff",
 				"eex",
 				"elixir",
+				"graphql",
 				"heex",
-				"html",
-				"javascript",
-				"jsdoc",
-				"json",
-				"jsonc",
-				"lua",
-				"luadoc",
-				"luap",
-				"markdown",
-				"markdown_inline",
-				"python",
-				"query",
-				"regex",
-				"toml",
-				"tsx",
-				"typescript",
-				"vim",
-				"vimdoc",
-				"xml",
-				"yaml",
-			}
+				"sql",
+			})
 
 			opts.textobjects.move = {
 				goto_next_start = { ["]f"] = "@function.outer" },
