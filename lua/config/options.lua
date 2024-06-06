@@ -14,3 +14,6 @@ vim.filetype.add({
 })
 
 vim.treesitter.language.register("markdown", "mdx")
+
+-- don't override treesitter hightlights
+vim.highlight.priorities.semantic_tokens = 95
