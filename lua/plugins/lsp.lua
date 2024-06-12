@@ -9,7 +9,15 @@ return {
 				enabled = false,
 			},
 			servers = {
-				elixirls = {},
+				tailwindcss = {
+					init_options = {
+						userLanguages = {
+							elixir = "html-eex",
+							eelixir = "html-eex",
+							heex = "html-eex",
+						},
+					},
+				},
 			},
 		},
 	},
