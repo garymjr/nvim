@@ -9,20 +9,14 @@ return {
 				enabled = false,
 			},
 			servers = {
-				elixirls = {
-					settings = {
-						elixirLS = {
-							dialyzerEnabled = false,
-						},
-					},
-				},
+				elixirls = {},
 			},
 		},
 	},
 	{
 		"j-hui/fidget.nvim",
-    event = "VeryLazy",
-    dependencies = {"nvim-lspconfig"},
+		event = "VeryLazy",
+		dependencies = { "nvim-lspconfig" },
 		opts = {},
 	},
 }
