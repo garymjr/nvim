@@ -18,4 +18,9 @@ return {
 			end
 		end,
 	},
+	{
+		"echasnovski/mini.statusline",
+		event = "VeryLazy",
+		opts = {},
+	},
 }
