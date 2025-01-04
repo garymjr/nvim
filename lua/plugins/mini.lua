@@ -23,4 +23,10 @@ return {
 		event = "VeryLazy",
 		opts = {},
 	},
+	{
+		"echasnovski/mini-git",
+		main = "mini.git",
+		cmd = "Git",
+		opts = {},
+	},
 }
