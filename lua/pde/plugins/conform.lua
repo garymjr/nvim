@@ -17,10 +17,18 @@ later(function()
       plsql = { "sqlfluff" },
       sql = { "sqlfluff" },
     },
-    format_on_save = {
-      timeout = 500,
-      lsp_format = "fallback",
-    },
+    format_on_save = function(bufnr)
+      if vim.b[bufnr].disable_autoformat then
+        return
+      end
+
+      return {
+        timeout_ms = 3000,
+        async = false,
+        quiet = false,
+        lsp_format = "fallback",
+      }
+    end,
   })
 
   vim.opt.formatexpr = "v:lua.require('conform').formatexpr()"

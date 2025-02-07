@@ -20,9 +20,9 @@ map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 
 -- Clear search and stop snippet on escape
 map({ "i", "n", "s" }, "<esc>", function()
-	vim.cmd("noh")
-	vim.snippet.stop()
-	return "<esc>"
+  vim.cmd("noh")
+  vim.snippet.stop()
+  return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
 -- Add undo break-points
@@ -37,9 +37,6 @@ map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
--- lazy
-map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
-
 -- new file
 map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 
@@ -51,10 +48,10 @@ map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
-	severity = severity and vim.diagnostic.severity[severity] or nil
-	return function()
-		vim.diagnostic.jump({ severity = severity, count = next and 1 or -1 })
-	end
+  severity = severity and vim.diagnostic.severity[severity] or nil
+  return function()
+    vim.diagnostic.jump({ severity = severity, count = next and 1 or -1 })
+  end
 end
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
@@ -107,7 +104,7 @@ map("n", "<leader>uI", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
 
 -- floating terminal
 map("n", "<leader>ft", function()
-	Snacks.terminal()
+  Snacks.terminal()
 end, { desc = "Terminal" })
 
 -- Terminal Mappings
