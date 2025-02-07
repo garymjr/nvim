@@ -1,6 +1,4 @@
-local add, later = MiniDeps.add, MiniDeps.later
-
-add("OXY2DEV/markview.nvim")
+local later = MiniDeps.later
 
 vim.filetype.add({
   extension = { mdx = "markdown.mdx" },

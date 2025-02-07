@@ -16,20 +16,84 @@ end
 
 require("mini.deps").setup({ path = { package = path_package } })
 
+local add = MiniDeps.add
+
 require("pde.config.options")
 require("pde.config.keymaps")
 require("pde.config.autocmds")
 
 require("pde.util")
 
-require("pde.plugins.mini")
-require("pde.plugins.copilot")
-require("pde.plugins.blink")
+PDE.util.mini_init()
 
-require("pde.plugins.treesitter")
-require("pde.plugins.lspconfig")
+add("github/copilot.vim")
 
-require("pde.plugins.conform")
-require("pde.plugins.lint")
+add({
+  source = "Saghen/blink.cmp",
+  checkout = "v0.11.0",
+  monitor = "main",
+  depends = { "olimorris/codecompanion.nvim", "kristijanhusak/vim-dadbod-completion" },
+})
 
-require("pde.plugins.codecompanion")
+add({
+  source = "olimorris/codecompanion.nvim",
+  depends = {
+    "nvim-lua/plenary.nvim",
+    "OXY2DEV/markview.nvim",
+  },
+})
+
+add("stevearc/conform.nvim")
+
+add({
+  source = "tpope/vim-dadbod",
+  depends = { "kristijanhusak/vim-dadbod-ui" },
+})
+
+add("mfussenegger/nvim-lint")
+
+add("neovim/nvim-lspconfig")
+
+add({
+  source = "williamboman/mason.nvim",
+  depends = {
+    "williamboman/mason-lspconfig.nvim",
+  },
+})
+
+add("folke/lazydev.nvim")
+
+add("OXY2DEV/markview.nvim")
+
+add({
+  source = "nvim-treesitter/nvim-treesitter",
+  hooks = {
+    post_checkout = function()
+      vim.cmd("TSUpdate")
+    end,
+  },
+})
+
+add("nvim-treesitter/nvim-treesitter-context")
+
+-- add("rebelot/kanagawa.nvim")
+
+add({
+  source = "catppuccin/nvim",
+  name = "catppuccin",
+})
+
+PDE.util.load_plugins()
+
+-- require("pde.plugins.mini")
+-- require("pde.plugins.copilot")
+-- require("pde.plugins.blink")
+--
+-- require("pde.plugins.treesitter")
+-- require("pde.plugins.lspconfig")
+--
+-- require("pde.plugins.conform")
+-- require("pde.plugins.lint")
+--
+-- require("pde.plugins.codecompanion")
+-- require("pde.plugins.dadbod")

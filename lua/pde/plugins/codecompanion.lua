@@ -1,4 +1,4 @@
-local add, later = MiniDeps.add, MiniDeps.later
+local later = MiniDeps.later
 
 local H = {}
 
@@ -17,15 +17,6 @@ function H.prompt()
     end)
   end
 end
-
-add({
-  source = "olimorris/codecompanion.nvim",
-  depends = {
-    "nvim-lua/plenary.nvim",
-    "j-hui/fidget.nvim",
-    "OXY2DEV/markview.nvim",
-  },
-})
 
 later(function()
   require("codecompanion").setup({

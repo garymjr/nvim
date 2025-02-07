@@ -1,11 +1,12 @@
-local add, later = MiniDeps.add, MiniDeps.later
-
-add("mfussenegger/nvim-lint")
+local later = MiniDeps.later
 
 later(function()
   require("lint").linters_by_ft = {
     elixir = { "credo" },
     markdown = { "markdownlint-cli2" },
+    mysql = { "sqlfluff" },
+    plsql = { "sqlfluff" },
+    sql = { "sqlfluff" },
   }
 end)
 

@@ -1,22 +1,4 @@
-local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
-
-add({
-  source = "neovim/nvim-lspconfig",
-  depends = {
-    "Saghen/blink.cmp",
-  },
-})
-
-add({
-  source = "williamboman/mason.nvim",
-  depends = {
-    "williamboman/mason-lspconfig.nvim",
-  },
-})
-
-add("folke/lazydev.nvim")
-
-add("j-hui/fidget.nvim")
+local now, later = MiniDeps.now, MiniDeps.later
 
 now(function()
   vim.diagnostic.config({
@@ -60,14 +42,14 @@ later(function()
   require("lazydev").setup({
     library = {
       { path = "${3rd}/luv/library",                                        words = { "vim%.uv" } },
-      { path = vim.fn.stdpath("data") .. "/site/pack/deps/start/mini.nvim", words = { "MiniDeps" } },
+      { path = vim.fn.stdpath("data") .. "/site/pack/deps/start/mini.nvim", words = { "MiniDeps", "MiniNotify" } },
     },
   })
 end)
 
-later(function()
-  require("fidget").setup({})
-end)
+-- later(function()
+--   require("fidget").setup({})
+-- end)
 
 later(function()
   require("mason").setup({
@@ -78,6 +60,7 @@ later(function()
       "markdownlint-cli2",
       "markdown-toc",
       "prettier",
+      "sqlfluff",
     },
   })
   ---@diagnostic disable-next-line: missing-fields
