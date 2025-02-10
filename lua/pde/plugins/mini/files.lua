@@ -1,3 +1,5 @@
 require("mini.files").setup()
 
-vim.keymap.set("n", "-", MiniFiles.open, { silent = true })
+vim.keymap.set("n", "-", function()
+	MiniFiles.open(vim.fn.expand("%"))
+end, { silent = true })
