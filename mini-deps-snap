@@ -1,0 +1,21 @@
+return {
+  ["SchemaStore.nvim"] = "97b08f928d355bd6d5dee595fdf667b5bfb6329f",
+  ["blink.cmp"] = "b6f11a0aa33e601c469a126e3ed6e35208fe3ea3",
+  catppuccin = "0b2437bcc12b4021614dc41fcea9d0f136d94063",
+  ["codecompanion.nvim"] = "1bcd7526265a6f5684fdad575556be7e91618281",
+  ["conform.nvim"] = "8ed162b0637d4c4f69ebe3e8e49b35662a82e137",
+  ["copilot.vim"] = "87038123804796ca7af20d1b71c3428d858a9124",
+  ["lazydev.nvim"] = "a1b78b2ac6f978c72e76ea90ae92a94edf380cfc",
+  ["markview.nvim"] = "f1e2a57388b61fff8e9d7519ce05cee27a59a57e",
+  ["mason-lspconfig.nvim"] = "a8e6efcf623b86bae6d2223eede7c43883329f80",
+  ["mason.nvim"] = "e2f7f9044ec30067bc11800a9e266664b88cda22",
+  ["mini.nvim"] = "4521dffdcc5eaab8afa01635961c8c39428b9fc2",
+  ["nvim-lint"] = "6e9dd545a1af204c4022a8fcd99727ea41ffdcc8",
+  ["nvim-lspconfig"] = "7af2c37192deae28d1305ae9e68544f7fb5408e1",
+  ["nvim-treesitter"] = "80e6de9d24eec68d82d5f4e6feae94c9c753ebd6",
+  ["nvim-treesitter-context"] = "03f382ef224c27a8508cdab2d0b463dcb8ca12a6",
+  ["plenary.nvim"] = "857c5ac632080dba10aae49dba902ce3abf91b35",
+  ["vim-dadbod"] = "9f0ca8bcef704659820a95c3bbd2c262583a66a1",
+  ["vim-dadbod-completion"] = "c7f1be21a08b8fc9d927a19db89a4aa995402787",
+  ["vim-dadbod-ui"] = "f4d37b7312ae6489e5c04bee654ca521baac188a"
+}
