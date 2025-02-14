@@ -16,6 +16,9 @@ opt.fillchars = {
 	diff = "╱",
 	eob = " ",
 }
+opt.foldexpr = "v:lua.PDE.util.foldexpr()"
+opt.foldlevel = 99
+opt.foldmethod = "expr"
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
