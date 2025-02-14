@@ -1,5 +1,5 @@
 local win_config = function()
-	local height = math.floor(0.309 * vim.o.lines)
+	local height = math.floor(0.618 * vim.o.lines)
 	local width = math.floor(0.618 * vim.o.columns)
 	return {
 		anchor = "NW",
@@ -22,25 +22,12 @@ require("mini.pick").setup({
 
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.ui.select = function(items, opts, on_choice)
-	local picker_items = {}
-	for i, item in ipairs(items) do
-		local text = (opts.format_item or tostring)(item)
-		table.insert(picker_items, { formatted = text, text = i .. " " .. text, item = item, idx = i })
-	end
-
 	local height = math.floor(0.218 * vim.o.lines)
 	local width = math.floor(0.5 * vim.o.columns)
 	local row = math.floor(0.5 * (vim.o.lines - height))
 	local col = math.floor(0.5 * (vim.o.columns - width))
 
-	MiniPick.start({
-		source = {
-			name = opts.prompt or "Select:",
-			items = picker_items,
-			choose = function(item)
-				on_choice(item.item, item.idx)
-			end,
-		},
+	MiniPick.ui_select(items, opts, on_choice, {
 		window = {
 			config = {
 				anchor = "NW",
