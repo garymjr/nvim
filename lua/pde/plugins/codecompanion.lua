@@ -44,9 +44,6 @@ later(function()
 			end,
 		},
 		display = {
-			action_palette = {
-				provider = "mini_pick",
-			},
 			diff = {
 				provider = "mini_diff",
 			},
@@ -71,28 +68,6 @@ later(function()
 						index = 5,
 						callback = "keymaps.stop",
 						description = "Stop Request",
-					},
-				},
-				slash_commands = {
-					buffer = {
-						opts = {
-							provider = "mini_pick",
-						},
-					},
-					file = {
-						opts = {
-							provider = "mini_pick",
-						},
-					},
-					help = {
-						opts = {
-							provider = "mini_pick",
-						},
-					},
-					symbols = {
-						opts = {
-							provider = "mini_pick",
-						},
 					},
 				},
 			},
