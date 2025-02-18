@@ -13,7 +13,12 @@ later(function()
 end)
 
 later(function()
-  require("pde.plugins.mini.bufremove")
+  require("mini.bufremove").setup()
+
+  vim.keymap.set("n", "<leader>bd", MiniBufremove.wipeout, { desc = "Delete Buffer" })
+  vim.keymap.set("n", "<leader>bD", function()
+    MiniBufremove.wipeout(0, true)
+  end, { desc = "Delete Buffer (force)" })
 end)
 
 now(function()
@@ -21,7 +26,16 @@ now(function()
 end)
 
 later(function()
-  require("mini.diff").setup()
+  require("mini.diff").setup({
+    view = {
+      style = "sign",
+      signs = {
+        add = "▎",
+        change = "▎",
+        delete = "",
+      },
+    },
+  })
 end)
 
 later(function()
@@ -33,11 +47,14 @@ later(function()
 end)
 
 now(function()
-  require("pde.plugins.mini.icons")
+  require("mini.icons").setup()
+  MiniIcons.mock_nvim_web_devicons()
 end)
 
 now(function()
-  require("pde.plugins.mini.notify")
+  require("mini.notify").setup()
+
+  vim.notify = MiniNotify.make_notify()
 end)
 
 later(function()
@@ -49,5 +66,15 @@ now(function()
 end)
 
 later(function()
-  require("pde.plugins.mini.surround")
+  require("mini.surround").setup({
+    mappings = {
+      add = "gsa",
+      delete = "gsd",
+      find = "gsf",
+      find_left = "gsF",
+      highlight = "gsh",
+      replace = "gsr",
+      update_n_lines = "gsn",
+    },
+  })
 end)
