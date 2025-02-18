@@ -15,32 +15,34 @@ local now = MiniDeps.now
 --   vim.cmd("colorscheme kanagawa")
 -- end)
 
-now(function()
-    require("catppuccin").setup {
-        flavour = "macchiato",
-        integrations = {
-            blink_cmp = { enabled = true },
-            dashboard = true,
-            mason = true,
-            markdown = true,
-            mini = true,
-            native_lsp = {
-                enabled = true,
-                underlines = {
-                    errors = { "undercurl" },
-                    hints = { "undercurl" },
-                    warnings = { "undercurl" },
-                    information = { "undercurl" },
-                },
-            },
-            notify = true,
-            semantic_tokens = true,
-            -- snacks = true,
-            treesitter = true,
-            treesitter_context = true,
-            -- which_key = true,
-        },
-    }
+-- now(function()
+--     require("catppuccin").setup {
+--         flavour = "macchiato",
+--         integrations = {
+--             blink_cmp = { enabled = true },
+--             dashboard = true,
+--             mason = true,
+--             markdown = true,
+--             mini = true,
+--             native_lsp = {
+--                 enabled = true,
+--                 underlines = {
+--                     errors = { "undercurl" },
+--                     hints = { "undercurl" },
+--                     warnings = { "undercurl" },
+--                     information = { "undercurl" },
+--                 },
+--             },
+--             notify = true,
+--             semantic_tokens = true,
+--             -- snacks = true,
+--             treesitter = true,
+--             treesitter_context = true,
+--             -- which_key = true,
+--         },
+--     }
+--
+--     vim.cmd.colorscheme "catppuccin"
+-- end)
 
-    vim.cmd.colorscheme "catppuccin"
-end)
+now(function() vim.cmd.colorscheme "poimandres" end)
