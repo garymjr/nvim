@@ -1,0 +1,6 @@
+syntax = "LuaJIT"
+column_width = 100
+indent_type = "Spaces"
+quote_style = "AutoPreferDouble"
+call_parentheses = "None"
+collapse_simple_statement = "FunctionOnly"

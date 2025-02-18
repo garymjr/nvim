@@ -1,13 +1,15 @@
 local later = MiniDeps.later
 
-vim.filetype.add({
-  extension = { mdx = "markdown.mdx" },
-})
+vim.filetype.add {
+    extension = { mdx = "markdown.mdx" },
+}
 
-later(function()
-  require("markview").setup({
-    preview = {
-      icon_provider = "mini",
-    },
-  })
-end)
+later(
+    function()
+        require("markview").setup {
+            preview = {
+                icon_provider = "mini",
+            },
+        }
+    end
+)

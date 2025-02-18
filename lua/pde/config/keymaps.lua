@@ -20,9 +20,9 @@ map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 
 -- Clear search and stop snippet on escape
 map({ "i", "n", "s" }, "<esc>", function()
-	vim.cmd("noh")
-	vim.snippet.stop()
-	return "<esc>"
+    vim.cmd "noh"
+    vim.snippet.stop()
+    return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
 -- Add undo break-points
@@ -48,10 +48,8 @@ map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
-	severity = severity and vim.diagnostic.severity[severity] or nil
-	return function()
-		vim.diagnostic.jump({ severity = severity, count = next and 1 or -1 })
-	end
+    severity = severity and vim.diagnostic.severity[severity] or nil
+    return function() vim.diagnostic.jump { severity = severity, count = next and 1 or -1 } end
 end
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
@@ -61,13 +59,19 @@ map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
 map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
 map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
-map("n", "<leader>ft", function()
-	require("pde.util.terminal").open()
-end, { desc = "Toggle terminal" })
+map(
+    "n",
+    "<leader>ft",
+    function() require("pde.util.terminal").open() end,
+    { desc = "Toggle terminal" }
+)
 
-map("n", "<leader>gg", function()
-	require("pde.util.terminal").open({ cmd = "lazygit" })
-end, { desc = "Toggle laygit" })
+map(
+    "n",
+    "<leader>gg",
+    function() require("pde.util.terminal").open { cmd = "lazygit" } end,
+    { desc = "Toggle laygit" }
+)
 
 -- quit
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
