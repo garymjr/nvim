@@ -1,4 +1,11 @@
-local now = MiniDeps.now
+local add, now = MiniDeps.add, MiniDeps.now
+
+add "olivercederborg/poimandres.nvim"
+
+now(function()
+  require("poimandres").setup()
+  vim.cmd.colorscheme "poimandres"
+end)
 
 -- now(function()
 --   require('kanagawa').setup({
@@ -44,5 +51,3 @@ local now = MiniDeps.now
 --
 --     vim.cmd.colorscheme "catppuccin"
 -- end)
-
-now(function() vim.cmd.colorscheme "poimandres" end)
