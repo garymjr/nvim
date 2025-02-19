@@ -29,6 +29,7 @@ function H.open_floating_window(opts)
 
   local default_keys = {
     { "n", "q", M.close },
+    { "n", "<leader>ft", M.close },
     { "t", "<esc><esc>", "<C-\\><C-n>" },
   }
 
