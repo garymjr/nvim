@@ -37,11 +37,6 @@ end
 add "CopilotC-Nvim/CopilotChat.nvim"
 
 later(function()
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "copilot-chat",
-    command = "Markview attach",
-  })
-
   vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "copilot-chat",
     callback = function()

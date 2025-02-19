@@ -39,7 +39,6 @@ add {
   source = "olimorris/codecompanion.nvim",
   depends = {
     "nvim-lua/plenary.nvim",
-    "OXY2DEV/markview.nvim",
   },
 }
 
@@ -63,8 +62,6 @@ add {
 
 add "folke/lazydev.nvim"
 
-add "OXY2DEV/markview.nvim"
-
 add {
   source = "nvim-treesitter/nvim-treesitter",
   hooks = {
@@ -78,5 +75,7 @@ add {
   source = "catppuccin/nvim",
   name = "catppuccin",
 }
+
+add "MeanderingProgrammer/render-markdown.nvim"
 
 PDE.util.load_plugins { disabled = { "codecompanion" } }
