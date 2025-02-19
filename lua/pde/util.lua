@@ -16,7 +16,9 @@ end
 
 function M.mini_init() H.safe_require "pde.plugins.mini" end
 
-function M.load_plugins()
+function M.load_plugins(opts)
+  opts = vim.tbl_deep_extend("force", { disabled = {} }, opts or {})
+
   vim.uv.fs_scandir(vim.fn.stdpath "config" .. "/lua/pde/plugins", function(err, entries)
     if err then
       return
@@ -29,7 +31,9 @@ function M.load_plugins()
       end
       if type == "file" and string.sub(name, -4) == ".lua" then
         local module_name = string.sub(name, 1, -5)
-        H.safe_require("pde.plugins." .. module_name)
+        if not vim.tbl_contains(opts.disabled, module_name) then
+          H.safe_require("pde.plugins." .. module_name)
+        end
       end
     end
   end)

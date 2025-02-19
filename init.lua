@@ -79,4 +79,4 @@ add {
   name = "catppuccin",
 }
 
-PDE.util.load_plugins()
+PDE.util.load_plugins { disabled = { "codecompanion" } }
