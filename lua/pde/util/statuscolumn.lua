@@ -1,11 +1,22 @@
+---@class pde.util.statuscolumn
+---@overload fun(): string
 local M = setmetatable({}, {
   __call = function(t) return t.get() end,
 })
 
+-- Numbers in Neovim are weird
+-- They show when either number or relativenumber is true
 local LINE_NR = "%=%{%(&number || &relativenumber) && v:virtnum == 0 ? ("
   .. (vim.fn.has "nvim-0.11" == 1 and '"%l"' or 'v:relnum == 0 ? (&number ? "%l" : "%r") : (&relativenumber ? "%r" : "%l")')
   .. ') : ""%} '
 
+---@alias pde.util.statuscolumn.Component "mark"|"sign"|"fold"|"git"
+---@alias pde.util.statuscolumn.Components pde.util.statuscolumn.Component[]|fun(win:number,buf:number,lnum:number):pde.util.statuscolumn.Component[]
+
+---@class pde.util.statuscolumn.Config
+---@field left pde.util.statuscolumn.Components
+---@field right pde.util.statuscolumn.Components
+---@field enabled? boolean
 local config = {
   enabled = true,
   left = { "mark", "sign" }, -- priority of signs on the left (high to low)
@@ -21,12 +32,19 @@ local config = {
   refresh = 50, -- refresh at most every 50ms
 }
 
+---@private
+---@alias pde.util.statuscolumn.Sign.type "mark"|"sign"|"fold"|"git"
+---@alias pde.util.statuscolumn.Sign {name:string, text:string, texthl:string, priority:number, type:pde.util.statuscolumn.Sign.type}
+
+-- Cache for signs per buffer and line
+---@type table<number,table<number,pde.util.statuscolumn.Sign[]>>
 local sign_cache = {}
 local cache = {} ---@type table<string,string>
 local icon_cache = {} ---@type table<string,string>
 
 local did_setup = false
 
+---@private
 function M.setup()
   if did_setup then
     return
@@ -41,6 +59,8 @@ function M.setup()
   end)
 end
 
+---@private
+---@param name string
 function M.is_git_sign(name)
   for _, pattern in ipairs(config.git.patterns) do
     if name:find(pattern) then
@@ -49,6 +69,10 @@ function M.is_git_sign(name)
   end
 end
 
+-- Returns a list of regular and extmark signs sorted by priority (low to high)
+---@private
+---@return table<number, pde.util.statuscolumn.Sign[]>
+---@param buf number
 function M.buf_signs(buf)
   local signs = {}
 
@@ -82,6 +106,12 @@ function M.buf_signs(buf)
   return signs
 end
 
+-- Returns a list of regular and extmark signs sorted by priority (high to low)
+---@private
+---@param win number
+---@param buf number
+---@param lnum number
+---@return pde.util.statuscolumn.Sign[]
 function M.line_signs(win, buf, lnum)
   local buf_signs = sign_cache[buf]
   if not buf_signs then
@@ -105,6 +135,8 @@ function M.line_signs(win, buf, lnum)
   return signs
 end
 
+---@private
+---@param sign? pde.util.statuscolumn.Sign
 function M.icon(sign)
   if not sign then
     return "  "
@@ -174,7 +206,7 @@ function M._get()
   end
 
   local ret = table.concat(components, "")
-  return "%@v:lua.require'pde.util.statuscolumn'.click_fold@" .. ret .. "%T"
+  return ret .. "%T"
 end
 
 function M.get()
@@ -190,24 +222,6 @@ function M.get()
     return ret
   end
   return ""
-end
-
----@private
-function M.health()
-  local ready = vim.o.statuscolumn:find("pde.util.statuscolumn", 1, true)
-  if config.enabled and not ready then
-    vim.notify("pde.util.statuscolumn is not configured", vim.log.levels.WARN)
-  end
-end
-
-function M.click_fold()
-  local pos = vim.fn.getmousepos()
-  vim.api.nvim_win_set_cursor(pos.winid, { pos.line, 1 })
-  vim.api.nvim_win_call(pos.winid, function()
-    if vim.fn.foldlevel(pos.line) > 0 then
-      vim.cmd "normal! za"
-    end
-  end)
 end
 
 return M

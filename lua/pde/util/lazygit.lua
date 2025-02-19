@@ -1,27 +1,44 @@
+---@class pde.util.lazygit
+---@overload fun()
 local M = {}
 
+---@alias pde.util.lazygit.Color {fg?:string, bg?:string, bold?:boolean}
+
+---@class snacks.lazygit.Theme: table<number, snacks.lazygit.Color>
+---@field activeBorderColor pde.util.lazygit.Color
+---@field cherryPickedCommitBgColor pde.util.lazygit.Color
+---@field cherryPickedCommitFgColor pde.util.lazygit.Color
+---@field defaultFgColor pde.util.lazygit.Color
+---@field inactiveBorderColor pde.util.lazygit.Color
+---@field optionsTextColor pde.util.lazygit.Color
+---@field searchingActiveBorderColor pde.util.lazygit.Color
+---@field selectedLineBgColor pde.util.lazygit.Color
+---@field unstagedChangesColor pde.util.lazygit.Color
+
+---@class snacks.lazygit.Config
+---@field args? string[]
+---@field theme? snacks.lazygit.Theme
 local H = {
   args = {},
   dirty = true,
   theme_path = vim.fs.normalize(vim.fn.stdpath "cache" .. "/lazygit-theme.yml"),
+  theme = {
+    [241] = { fg = "Special" },
+    activeBorderColor = { fg = "MatchParen", bold = true },
+    cherryPickedCommitBgColor = { fg = "Identifier" },
+    cherryPickedCommitFgColor = { fg = "Function" },
+    defaultFgColor = { fg = "Normal" },
+    inactiveBorderColor = { fg = "FloatBorder" },
+    optionsTextColor = { fg = "Function" },
+    searchingActiveBorderColor = { fg = "MatchParen", bold = true },
+    selectedLineBgColor = { bg = "Visual" }, -- set to `default` to have no background colour
+    unstagedChangesColor = { fg = "DiagnosticError" },
+  },
 }
 
 vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function() H.dirty = true end,
 })
-
-H.theme = {
-  [241] = { fg = "Special" },
-  activeBorderColor = { fg = "MatchParen", bold = true },
-  cherryPickedCommitBgColor = { fg = "Identifier" },
-  cherryPickedCommitFgColor = { fg = "Function" },
-  defaultFgColor = { fg = "Normal" },
-  inactiveBorderColor = { fg = "FloatBorder" },
-  optionsTextColor = { fg = "Function" },
-  searchingActiveBorderColor = { fg = "MatchParen", bold = true },
-  selectedLineBgColor = { bg = "Visual" }, -- set to `default` to have no background colour
-  unstagedChangesColor = { fg = "DiagnosticError" },
-}
 
 function H.env()
   if not H.config_dir then
@@ -49,6 +66,8 @@ function H.env()
   end
 end
 
+---@param value pde.util.lazygit.Color
+---@return string[]
 function H.get_color(value)
   local color = {}
   for _, v in ipairs { "fg", "bg" } do
