@@ -69,7 +69,7 @@ map(
 map(
     "n",
     "<leader>gg",
-    function() require("pde.util.terminal").open { cmd = "lazygit" } end,
+    function() require("pde.util.lazygit").open() end,
     { desc = "Toggle laygit" }
 )
 
