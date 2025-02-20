@@ -66,7 +66,7 @@ return {
   {
     "<leader>ft",
     function()
-      require("pde.util.terminal").open()
+      MicroVim.terminal.open()
     end,
     { desc = "Toggle terminal" },
   },
