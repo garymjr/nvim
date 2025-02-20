@@ -8,20 +8,21 @@ function H.pick(kind)
     local actions = require "CopilotChat.actions"
     local kind_actions = actions[kind .. "_actions"]()
 
-    local items = vim.tbl_map(
-      function(name)
-        return {
-          id = name,
-          prompt = kind_actions.actions[name].prompt,
-        }
-      end,
-      vim.tbl_keys(kind_actions.actions)
-    )
+    local items = vim.tbl_map(function(name)
+      return {
+        id = name,
+        prompt = kind_actions.actions[name].prompt,
+      }
+    end, vim.tbl_keys(kind_actions.actions))
 
     vim.ui.select(items, {
       prompt = kind_actions.prompt,
-      format_item = function(item) return item.id end,
-      preview_item = function(item) return vim.split(item.prompt, "\n", { plain = true }) end,
+      format_item = function(item)
+        return item.id
+      end,
+      preview_item = function(item)
+        return vim.split(item.prompt, "\n", { plain = true })
+      end,
     }, function(choice)
       if not choice then
         return
@@ -75,19 +76,13 @@ later(function()
     },
   }
 
-  vim.keymap.set(
-    { "n", "v" },
-    "<leader>aa",
-    function() require("CopilotChat").toggle() end,
-    { desc = "Toggle Copilot Chat" }
-  )
+  vim.keymap.set({ "n", "v" }, "<leader>aa", function()
+    require("CopilotChat").toggle()
+  end, { desc = "Toggle Copilot Chat" })
 
-  vim.keymap.set(
-    { "n", "v" },
-    "<leader>ax",
-    function() require("CopilotChat").reset() end,
-    { desc = "Clear Copilot Chat" }
-  )
+  vim.keymap.set({ "n", "v" }, "<leader>ax", function()
+    require("CopilotChat").reset()
+  end, { desc = "Clear Copilot Chat" })
 
   vim.keymap.set({ "n", "v" }, "<leader>aq", function()
     local input = vim.fn.input "Quick Chat: "

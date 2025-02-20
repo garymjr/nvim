@@ -37,7 +37,9 @@ local H = {
 }
 
 vim.api.nvim_create_autocmd("ColorScheme", {
-  callback = function() H.dirty = true end,
+  callback = function()
+    H.dirty = true
+  end,
 })
 
 function H.env()
@@ -48,10 +50,9 @@ function H.env()
     if vim.v.shell_error == 0 and #lines > 1 then
       H.config_dir = vim.split(lines[1], "\n", { plain = true })[1]
 
-      local config_files = vim.tbl_filter(
-        function(v) return v:match "%S" end,
-        vim.split(vim.env.LG_CONFIG_FILE or "", ",", { plain = true })
-      )
+      local config_files = vim.tbl_filter(function(v)
+        return v:match "%S"
+      end, vim.split(vim.env.LG_CONFIG_FILE or "", ",", { plain = true }))
 
       if #config_files == 0 then
         config_files[1] = vim.fs.normalize(H.config_dir .. "/config.yml")

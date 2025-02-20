@@ -1,7 +1,9 @@
 ---@class pde.util.statuscolumn
 ---@overload fun(): string
 local M = setmetatable({}, {
-  __call = function(t) return t.get() end,
+  __call = function(t)
+    return t.get()
+  end,
 })
 
 -- Numbers in Neovim are weird
@@ -131,7 +133,9 @@ function M.line_signs(win, buf, lnum)
   end)
 
   -- Sort by priority
-  table.sort(signs, function(a, b) return (a.priority or 0) > (b.priority or 0) end)
+  table.sort(signs, function(a, b)
+    return (a.priority or 0) > (b.priority or 0)
+  end)
   return signs
 end
 

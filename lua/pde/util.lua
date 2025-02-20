@@ -11,10 +11,14 @@ function M.execute(opts)
 end
 
 function H.safe_require(mod)
-  vim.schedule(function() pcall(require, mod) end)
+  vim.schedule(function()
+    pcall(require, mod)
+  end)
 end
 
-function M.mini_init() H.safe_require "pde.plugins.mini" end
+function M.mini_init()
+  H.safe_require "pde.plugins.mini"
+end
 
 function M.load_plugins(opts)
   opts = vim.tbl_deep_extend("force", { disabled = {} }, opts or {})

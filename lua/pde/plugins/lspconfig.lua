@@ -1,27 +1,34 @@
 local now, later = MiniDeps.now, MiniDeps.later
+local servers = require "microvim.lsp.servers"
 
-now(
-  function()
-    vim.diagnostic.config {
-      underline = true,
-      update_in_insert = false,
-      virtual_text = {
-        spacing = 4,
-        source = "if_many",
-        prefix = "●",
-      },
-      severity_sort = true,
-      signs = {
-        text = {
-          [vim.diagnostic.severity.ERROR] = " ",
-          [vim.diagnostic.severity.WARN] = " ",
-          [vim.diagnostic.severity.HINT] = " ",
-          [vim.diagnostic.severity.INFO] = " ",
-        },
-      },
-    }
+local function ensure_installed(deps)
+  local merged_deps = vim.deepcopy(deps)
+  for _, server in ipairs(vim.tbl_keys(servers)) do
+    table.insert(merged_deps, server)
   end
-)
+  return merged_deps
+end
+
+now(function()
+  vim.diagnostic.config {
+    underline = true,
+    update_in_insert = false,
+    virtual_text = {
+      spacing = 4,
+      source = "if_many",
+      prefix = "●",
+    },
+    severity_sort = true,
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = " ",
+        [vim.diagnostic.severity.WARN] = " ",
+        [vim.diagnostic.severity.HINT] = " ",
+        [vim.diagnostic.severity.INFO] = " ",
+      },
+    },
+  }
+end)
 
 local capabilities = vim.tbl_deep_extend("force", {
   workspace = {
@@ -32,15 +39,15 @@ local capabilities = vim.tbl_deep_extend("force", {
   },
 }, vim.lsp.protocol.make_client_capabilities(), require("blink.cmp").get_lsp_capabilities())
 
-local function setup(server)
-  local has_opts, opts = pcall(require, "pde.config.lsp." .. server)
-  local server_opts = vim.tbl_deep_extend(
-    "force",
-    { capabilities = vim.deepcopy(capabilities) },
-    has_opts and opts or {}
-  )
-  require("lspconfig")[server].setup(server_opts)
-end
+now(function()
+  for _, server in ipairs(vim.tbl_keys(servers)) do
+    local config = vim.tbl_deep_extend("force", {
+      capabilities = capabilities,
+    }, servers[server] or {})
+    vim.lsp.config(server, config)
+    vim.lsp.enable(server)
+  end
+end)
 
 later(function()
   ---@diagnostic disable-next-line: missing-fields
@@ -65,7 +72,7 @@ end)
 later(function()
   require("mason").setup {
     automatic_installation = true,
-    ensure_installed = {
+    ensure_installed = ensure_installed {
       "gofumpt",
       "goimports",
       "hadolint",
@@ -74,22 +81,6 @@ later(function()
       "prettier",
       "sqlfluff",
     },
-  }
-  ---@diagnostic disable-next-line: missing-fields
-  require("mason-lspconfig").setup {
-    automatic_installation = true,
-    ensure_installed = {
-      "docker_compose_language_service",
-      "dockerls",
-      "elixirls",
-      "gopls",
-      "jsonls",
-      "lua_ls",
-      "marksman",
-      "tailwindcss",
-      "vtsls",
-    },
-    handlers = { setup },
   }
 end)
 

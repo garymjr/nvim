@@ -1,9 +1,13 @@
 local H = {}
 
 H.show_dotfiles = false
-function H.filter_show() return true end
+function H.filter_show()
+  return true
+end
 
-function H.filter_hide(fs_entry) return not vim.startswith(fs_entry.name, ".") end
+function H.filter_hide(fs_entry)
+  return not vim.startswith(fs_entry.name, ".")
+end
 
 function H.toggle_dotfiles()
   H.show_dotfiles = not H.show_dotfiles
@@ -11,7 +15,9 @@ function H.toggle_dotfiles()
   require("mini.files").refresh { content = { filter = new_filter } }
 end
 
-vim.keymap.set("n", "-", function() MiniFiles.open(vim.fn.expand "%") end, { silent = true })
+vim.keymap.set("n", "-", function()
+  MiniFiles.open(vim.fn.expand "%")
+end, { silent = true })
 
 vim.api.nvim_create_autocmd("User", {
   pattern = "MiniFilesBufferCreate",

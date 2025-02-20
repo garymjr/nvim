@@ -65,7 +65,9 @@ add "folke/lazydev.nvim"
 add {
   source = "nvim-treesitter/nvim-treesitter",
   hooks = {
-    post_checkout = function() vim.cmd "TSUpdate" end,
+    post_checkout = function()
+      vim.cmd "TSUpdate"
+    end,
   },
 }
 

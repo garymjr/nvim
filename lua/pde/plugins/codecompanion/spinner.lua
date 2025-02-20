@@ -28,7 +28,9 @@ end
 
 M.notifications = {}
 
-function M:store_progress_notification(id, notification) M.notifications[id] = notification end
+function M:store_progress_notification(id, notification)
+  M.notifications[id] = notification
+end
 
 function M:pop_progress_notification(id)
   local notification = M.notifications[id]
@@ -52,13 +54,19 @@ end
 function M:report_exit_status(notification, request)
   if request.data.status == "success" then
     MiniNotify.update(notification, { msg = "󰌵 Success" })
-    vim.defer_fn(function() MiniNotify.remove(notification) end, 1000)
+    vim.defer_fn(function()
+      MiniNotify.remove(notification)
+    end, 1000)
   elseif request.data.status == "error" then
     MiniNotify.update(notification, { msg = " Error", level = "ERROR" })
-    vim.defer_fn(function() MiniNotify.remove(notification) end, 5000)
+    vim.defer_fn(function()
+      MiniNotify.remove(notification)
+    end, 5000)
   else
     MiniNotify.update(notification, { msg = "󰜺 Cancelled", level = "WARN" })
-    vim.defer_fn(function() MiniNotify.remove(notification) end, 1000)
+    vim.defer_fn(function()
+      MiniNotify.remove(notification)
+    end, 1000)
   end
 end
 

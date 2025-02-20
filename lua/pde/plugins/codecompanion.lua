@@ -133,4 +133,6 @@ later(function()
   })
 end)
 
-later(function() require("pde.plugins.codecompanion.spinner"):init() end)
+later(function()
+  require("pde.plugins.codecompanion.spinner"):init()
+end)

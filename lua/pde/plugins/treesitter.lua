@@ -30,7 +30,6 @@ now(function()
       "json",
       "json5",
       "jsonc",
-      "latex",
       "lua",
       "luadoc",
       "make",
@@ -59,11 +58,9 @@ now(function()
   }
 end)
 
-later(
-  function()
-    require("treesitter-context").setup {
-      enable = true,
-      max_lines = 3,
-    }
-  end
-)
+later(function()
+  require("treesitter-context").setup {
+    enable = true,
+    max_lines = 3,
+  }
+end)

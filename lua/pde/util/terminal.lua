@@ -66,7 +66,9 @@ function H.open_floating_window(opts)
   if cmd then
     vim.fn.jobstart(cmd, {
       term = true,
-      on_exit = function() M.close() end,
+      on_exit = function()
+        M.close()
+      end,
     })
   else
     if vim.bo[bufnr].buftype ~= "terminal" then
@@ -82,7 +84,9 @@ function H.open_floating_window(opts)
 end
 
 ---@param opts? table Options for the floating window.
-function M.open(opts) H.open_floating_window(opts) end
+function M.open(opts)
+  H.open_floating_window(opts)
+end
 
 function M.close()
   if H.winnr and vim.api.nvim_win_is_valid(H.winnr) then

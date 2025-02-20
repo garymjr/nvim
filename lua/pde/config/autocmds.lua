@@ -1,4 +1,6 @@
-local function augroup(name) return vim.api.nvim_create_augroup("pde_" .. name, { clear = true }) end
+local function augroup(name)
+  return vim.api.nvim_create_augroup("pde_" .. name, { clear = true })
+end
 
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
@@ -13,7 +15,9 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup "highlight_yank",
-  callback = function() (vim.hl or vim.highlight).on_yank() end,
+  callback = function()
+    (vim.hl or vim.highlight).on_yank()
+  end,
 })
 
 -- resize splits if window got resized
@@ -59,21 +63,27 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup "man_unlisted",
   pattern = { "man" },
-  callback = function(event) vim.bo[event.buf].buflisted = false end,
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+  end,
 })
 
 -- wrap in text filetypes
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup "wrap",
   pattern = { "text", "plaintex", "typst", "gitcommit", "markdown" },
-  callback = function() vim.opt_local.wrap = true end,
+  callback = function()
+    vim.opt_local.wrap = true
+  end,
 })
 
 -- Fix conceallevel for json files
 vim.api.nvim_create_autocmd({ "FileType" }, {
   group = augroup "json_conceal",
   pattern = { "json", "jsonc", "json5" },
-  callback = function() vim.opt_local.conceallevel = 0 end,
+  callback = function()
+    vim.opt_local.conceallevel = 0
+  end,
 })
 
 -- Auto create dir when saving a file, in case some intermediate directory does not exist
