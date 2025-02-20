@@ -33,3 +33,9 @@ later(function()
 
   vim.opt.formatexpr = "v:lua.require('conform').formatexpr()"
 end)
+
+later(function()
+  vim.keymap.set("n", "<leader>cf", function()
+    require("conform").format { timeout_ms = 3000, async = false, quiet = false }
+  end, { desc = "Format" })
+end)

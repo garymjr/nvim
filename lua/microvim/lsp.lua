@@ -1,25 +1,44 @@
 local Path = require "microvim.util.path"
 local notify = require "microvim.util.notify"
 
+local servers = require "microvim.lsp.servers"
+
 ---@class microvim.lsp
 local M = {}
 
 local base_dir = Path(vim.fn.stdpath "config" .. "/lsp")
 
----@param name string
----@param opts? table
-function M.setup(name, opts)
+function M.setup()
   if not base_dir:exists() then
     notify.error "LSP directory does not exist"
   end
 
-  local path = base_dir:join(name .. ".lua")
-  if not path:exists() then
-    notify.error("LSP config does not exist: " .. path:get())
-    return
+  local capabilities = vim.tbl_deep_extend("force", {
+    workspace = {
+      fileOperations = {
+        didRename = true,
+        willRename = true,
+      },
+    },
+  }, vim.lsp.protocol.make_client_capabilities(), require("blink.cmp").get_lsp_capabilities())
+
+  for server, server_opts in pairs(servers) do
+    local path = base_dir:join(server .. ".lua")
+    if not path:exists() and server ~= "*" then
+      notify.error("LSP config does not exist: " .. path:get())
+      return
+    end
+
+    local config = vim.tbl_deep_extend("force", {
+      capabilities = capabilities,
+    }, server_opts or {})
+
+    vim.lsp.config(server, config)
+
+    if server ~= "*" then
+      vim.lsp.enable(server)
+    end
   end
-  vim.lsp.config(name, opts)
-  vim.lsp.enable(name)
 end
 
 return M

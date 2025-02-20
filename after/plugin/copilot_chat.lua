@@ -1,4 +1,4 @@
-local add, later = MiniDeps.add, MiniDeps.later
+local later = MiniDeps.later
 
 local H = {}
 
@@ -35,8 +35,6 @@ function H.pick(kind)
   end
 end
 
-add "CopilotC-Nvim/CopilotChat.nvim"
-
 later(function()
   vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "copilot-chat",
@@ -45,7 +43,9 @@ later(function()
       vim.opt_local.number = false
     end,
   })
+end)
 
+later(function()
   local user = vim.env.USER or "User"
   user = user:sub(1, 1):upper() .. user:sub(2)
 
@@ -75,7 +75,9 @@ later(function()
       },
     },
   }
+end)
 
+later(function()
   vim.keymap.set({ "n", "v" }, "<leader>aa", function()
     require("CopilotChat").toggle()
   end, { desc = "Toggle Copilot Chat" })

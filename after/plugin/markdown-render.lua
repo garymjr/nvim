@@ -1,8 +1,10 @@
 local later = MiniDeps.later
 
-vim.filetype.add {
-  extension = { mdx = "markdown.mdx" },
-}
+later(function()
+  vim.filetype.add {
+    extension = { mdx = "markdown.mdx" },
+  }
+end)
 
 later(function()
   require("render-markdown").setup()

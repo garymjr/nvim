@@ -10,6 +10,8 @@ later(function()
   vim.g.db_ui_use_nerd_fonts = true
   vim.g.db_ui_use_nvim_notify = true
   vim.g.db_ui_execute_on_save = false
+end)
 
+later(function()
   vim.keymap.set("n", "<leader>D", "<cmd>DBUIToggle<CR>", { desc = "Toggle DBUI" })
 end)

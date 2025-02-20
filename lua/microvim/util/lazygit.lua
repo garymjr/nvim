@@ -1,23 +1,23 @@
----@class pde.util.lazygit
+---@class microvim.util.lazygit
 ---@overload fun()
 local M = {}
 
----@alias pde.util.lazygit.Color {fg?:string, bg?:string, bold?:boolean}
+---@alias microvim.util.lazygit.Color {fg?:string, bg?:string, bold?:boolean}
 
----@class snacks.lazygit.Theme: table<number, snacks.lazygit.Color>
----@field activeBorderColor pde.util.lazygit.Color
----@field cherryPickedCommitBgColor pde.util.lazygit.Color
----@field cherryPickedCommitFgColor pde.util.lazygit.Color
----@field defaultFgColor pde.util.lazygit.Color
----@field inactiveBorderColor pde.util.lazygit.Color
----@field optionsTextColor pde.util.lazygit.Color
----@field searchingActiveBorderColor pde.util.lazygit.Color
----@field selectedLineBgColor pde.util.lazygit.Color
----@field unstagedChangesColor pde.util.lazygit.Color
+---@class microvim.lazygit.Theme: table<number, microvim.lazygit.Color>
+---@field activeBorderColor microvim.util.lazygit.Color
+---@field cherryPickedCommitBgColor microvim.util.lazygit.Color
+---@field cherryPickedCommitFgColor microvim.util.lazygit.Color
+---@field defaultFgColor microvim.util.lazygit.Color
+---@field inactiveBorderColor microvim.util.lazygit.Color
+---@field optionsTextColor microvim.util.lazygit.Color
+---@field searchingActiveBorderColor microvim.util.lazygit.Color
+---@field selectedLineBgColor microvim.util.lazygit.Color
+---@field unstagedChangesColor microvim.util.lazygit.Color
 
----@class snacks.lazygit.Config
+---@class microvim.lazygit.Config
 ---@field args? string[]
----@field theme? snacks.lazygit.Theme
+---@field theme? microvim.lazygit.Theme
 local H = {
   args = {},
   dirty = true,
@@ -67,7 +67,7 @@ function H.env()
   end
 end
 
----@param value pde.util.lazygit.Color
+---@param value microvim.util.lazygit.Color
 ---@return string[]
 function H.get_color(value)
   local color = {}
@@ -148,7 +148,7 @@ function M.open()
     H.update_config()
   end
 
-  return require("pde.util.terminal").open { cmd = cmd }
+  MicroVim.terminal.open { cmd = cmd }
 end
 
 return M

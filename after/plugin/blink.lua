@@ -40,7 +40,7 @@ later(function()
         "snippets",
         "buffer",
         "lazydev",
-        "codecompanion",
+        -- "codecompanion",
         "dadbod",
       },
       providers = {
@@ -49,10 +49,10 @@ later(function()
           module = "lazydev.integrations.blink",
           score_offset = 100,
         },
-        codecompanion = {
-          name = "CodeCompanion",
-          module = "codecompanion.providers.completion.blink",
-        },
+        -- codecompanion = {
+        --   name = "CodeCompanion",
+        --   module = "codecompanion.providers.completion.blink",
+        -- },
         dadbod = {
           name = "Dadbod",
           module = "vim_dadbod_completion.blink",

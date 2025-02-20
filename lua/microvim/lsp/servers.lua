@@ -1,12 +1,27 @@
+local H = {}
+
+function H.on_attach(client, bufnr)
+  local ignored_filetypes = { "codecompanion" }
+  if vim.tbl_contains(ignored_filetypes, vim.bo[bufnr].filetype) or not client then
+    return
+  end
+
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to Definition" })
+end
+
 ---@type table<string, vim.lsp.Config>
 local M = {
+  ["*"] = {
+    on_attach = H.on_attach,
+    root_markers = { ".git" },
+  },
   elixirls = {
     cmd = { vim.fn.stdpath "data" .. "/mason/bin/elixir-ls" },
     on_attach = function(_, bufnr)
       vim.keymap.set("n", "<leader>cp", function()
         ---@diagnostic disable-next-line: missing-parameter
         local params = vim.lsp.util.make_position_params()
-        PDE.util.execute {
+        MicroVim.util.execute {
           command = "manipulatePipes:serverid",
           arguments = {
             "toPipe",
@@ -20,7 +35,7 @@ local M = {
       vim.keymap.set("n", "<leader>cP", function()
         ---@diagnostic disable-next-line: missing-parameter
         local params = vim.lsp.util.make_position_params()
-        PDE.util.execute {
+        MicroVim.util.execute {
           command = "manipulatePipes:serverid",
           arguments = {
             "fromPipe",
@@ -100,7 +115,7 @@ local M = {
       vim.keymap.set("n", "gD", function()
         ---@diagnostic disable-next-line: missing-parameter
         local params = vim.lsp.util.make_position_params()
-        PDE.util.execute {
+        MicroVim.util.execute {
           command = "typescript.goToSourceDefinition",
           arguments = { params.textDocument.uri, params.position },
           open = true,
@@ -108,7 +123,7 @@ local M = {
       end, { desc = "Goto Source Definition", buffer = bufnr })
 
       vim.keymap.set("n", "gR", function()
-        PDE.util.execute {
+        MicroVim.util.execute {
           command = "typescript.findAllFileReferences",
           arguments = { vim.uri_from_bufnr(0) },
           open = true,

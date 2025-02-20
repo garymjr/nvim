@@ -1,4 +1,4 @@
----@class pde.util.statuscolumn
+---@class microvim.util.statuscolumn
 ---@overload fun(): string
 local M = setmetatable({}, {
   __call = function(t)
@@ -12,12 +12,12 @@ local LINE_NR = "%=%{%(&number || &relativenumber) && v:virtnum == 0 ? ("
   .. (vim.fn.has "nvim-0.11" == 1 and '"%l"' or 'v:relnum == 0 ? (&number ? "%l" : "%r") : (&relativenumber ? "%r" : "%l")')
   .. ') : ""%} '
 
----@alias pde.util.statuscolumn.Component "mark"|"sign"|"fold"|"git"
----@alias pde.util.statuscolumn.Components pde.util.statuscolumn.Component[]|fun(win:number,buf:number,lnum:number):pde.util.statuscolumn.Component[]
+---@alias microvim.util.statuscolumn.Component "mark"|"sign"|"fold"|"git"
+---@alias microvim.util.statuscolumn.Components microvim.util.statuscolumn.Component[]|fun(win:number,buf:number,lnum:number):microvim.util.statuscolumn.Component[]
 
----@class pde.util.statuscolumn.Config
----@field left pde.util.statuscolumn.Components
----@field right pde.util.statuscolumn.Components
+---@class microvim.util.statuscolumn.Config
+---@field left microvim.util.statuscolumn.Components
+---@field right microvim.util.statuscolumn.Components
 ---@field enabled? boolean
 local config = {
   enabled = true,
@@ -35,11 +35,11 @@ local config = {
 }
 
 ---@private
----@alias pde.util.statuscolumn.Sign.type "mark"|"sign"|"fold"|"git"
----@alias pde.util.statuscolumn.Sign {name:string, text:string, texthl:string, priority:number, type:pde.util.statuscolumn.Sign.type}
+---@alias microvim.util.statuscolumn.Sign.type "mark"|"sign"|"fold"|"git"
+---@alias microvim.util.statuscolumn.Sign {name:string, text:string, texthl:string, priority:number, type:microvim.util.statuscolumn.Sign.type}
 
 -- Cache for signs per buffer and line
----@type table<number,table<number,pde.util.statuscolumn.Sign[]>>
+---@type table<number,table<number,microvim.util.statuscolumn.Sign[]>>
 local sign_cache = {}
 local cache = {} ---@type table<string,string>
 local icon_cache = {} ---@type table<string,string>
@@ -53,7 +53,7 @@ function M.setup()
   end
 
   did_setup = true
-  vim.api.nvim_set_hl(0, "PDEStausColumnMark", { default = true, link = "DiagnosticHint" })
+  vim.api.nvim_set_hl(0, "MicroVimStausColumnMark", { default = true, link = "DiagnosticHint" })
   local timer = assert(vim.uv.new_timer())
   timer:start(config.refresh, config.refresh, function()
     sign_cache = {}
@@ -73,7 +73,7 @@ end
 
 -- Returns a list of regular and extmark signs sorted by priority (low to high)
 ---@private
----@return table<number, pde.util.statuscolumn.Sign[]>
+---@return table<number, microvim.util.statuscolumn.Sign[]>
 ---@param buf number
 function M.buf_signs(buf)
   local signs = {}
@@ -100,7 +100,7 @@ function M.buf_signs(buf)
       signs[lnum] = signs[lnum] or {}
       table.insert(
         signs[lnum],
-        { text = mark.mark:sub(2), texthl = "PDEStatusColumnMark", type = "mark" }
+        { text = mark.mark:sub(2), texthl = "MicroVimStatusColumnMark", type = "mark" }
       )
     end
   end
@@ -113,7 +113,7 @@ end
 ---@param win number
 ---@param buf number
 ---@param lnum number
----@return pde.util.statuscolumn.Sign[]
+---@return microvim.util.statuscolumn.Sign[]
 function M.line_signs(win, buf, lnum)
   local buf_signs = sign_cache[buf]
   if not buf_signs then
@@ -140,7 +140,7 @@ function M.line_signs(win, buf, lnum)
 end
 
 ---@private
----@param sign? pde.util.statuscolumn.Sign
+---@param sign? microvim.util.statuscolumn.Sign
 function M.icon(sign)
   if not sign then
     return "  "

@@ -1,3 +1,4 @@
+---@class microvim.util.terminal
 local M = {}
 local H = {}
 
