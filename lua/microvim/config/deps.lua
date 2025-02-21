@@ -35,4 +35,5 @@ return {
   },
   { source = "MeanderingProgrammer/render-markdown.nvim" },
   { source = "olivercederborg/poimandres.nvim" },
+  { source = "b0o/SchemaStore.nvim" },
 }
