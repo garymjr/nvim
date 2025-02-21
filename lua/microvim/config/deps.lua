@@ -1,8 +1,5 @@
 return {
-  {
-    source = "CopilotC-Nvim/CopilotChat.nvim",
-    depends = { "github/copilot.vim", "nvim-lua/plenary.nvim" },
-  },
+  { source = "github/copilot.vim" },
   {
     source = "Saghen/blink.cmp",
     checkout = "v0.12.4",

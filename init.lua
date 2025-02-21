@@ -16,4 +16,8 @@ end
 
 require("mini.deps").setup { path = { package = path_package } }
 
-require("microvim").setup()
+require("microvim").setup {
+  deps = {
+    { source = "olimorris/codecompanion.nvim", depends = { "nvim-lua/plenary.nvim" } },
+  },
+}

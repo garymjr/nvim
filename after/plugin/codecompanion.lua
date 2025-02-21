@@ -1,8 +1,10 @@
 local later = MiniDeps.later
 
-local H = {}
+local H = {
+  notifications = {},
+}
 
-function H.prompt()
+local function prompt()
   if vim.fn.mode() == "v" or vim.fn.mode() == "V" then
     vim.ui.input({ prompt = "CodeCompanion: " }, function(input)
       if input then
@@ -15,6 +17,72 @@ function H.prompt()
         vim.cmd("CodeCompanion " .. input)
       end
     end)
+  end
+end
+
+function H:init()
+  local group = vim.api.nvim_create_augroup("microvim_codecompanion_hooks", { clear = true })
+
+  vim.api.nvim_create_autocmd({ "User" }, {
+    pattern = "CodeCompanionRequestStarted",
+    group = group,
+    callback = function(request)
+      local notification = H:create_progress_notification(request)
+      H:store_progress_notification(request.data.id, notification)
+    end,
+  })
+
+  vim.api.nvim_create_autocmd({ "User" }, {
+    pattern = "CodeCompanionRequestFinished",
+    group = group,
+    callback = function(request)
+      local notification = H:pop_progress_notification(request.data.id)
+      if notification then
+        H:report_exit_status(notification, request)
+      end
+    end,
+  })
+end
+
+function H:store_progress_notification(id, notification)
+  H.notifications[id] = notification
+end
+
+function H:pop_progress_notification(id)
+  local notification = H.notifications[id]
+  H.notifications[id] = nil
+  return notification
+end
+
+function H:create_progress_notification(request)
+  return MiniNotify.add(" Requesting assistance (" .. request.data.strategy .. ")", "INFO")
+end
+
+function H:llm_role_title(adapter)
+  local parts = {}
+  table.insert(parts, adapter.formatted_name)
+  if adapter.model and adapter.model ~= "" then
+    table.insert(parts, "(" .. adapter.model .. ")")
+  end
+  return table.concat(parts, " ")
+end
+
+function H:report_exit_status(notification, request)
+  if request.data.status == "success" then
+    MiniNotify.update(notification, { msg = "󰌵 Success" })
+    vim.defer_fn(function()
+      MiniNotify.remove(notification)
+    end, 1000)
+  elseif request.data.status == "error" then
+    MiniNotify.update(notification, { msg = " Error", level = "ERROR" })
+    vim.defer_fn(function()
+      MiniNotify.remove(notification)
+    end, 5000)
+  else
+    MiniNotify.update(notification, { msg = "󰜺 Cancelled", level = "WARN" })
+    vim.defer_fn(function()
+      MiniNotify.remove(notification)
+    end, 1000)
   end
 end
 
@@ -106,7 +174,9 @@ later(function()
       },
     },
   }
+end)
 
+later(function()
   vim.keymap.set(
     { "n", "v" },
     "<leader>aa",
@@ -122,17 +192,11 @@ later(function()
   vim.keymap.set(
     { "n", "v" },
     "<leader>aq",
-    H.prompt,
+    prompt,
     { desc = "Inline Chat (CodeCompanion)", silent = true }
   )
-
-  vim.api.nvim_create_autocmd("FileType", {
-    group = vim.api.nvim_create_augroup("pde_codecompanion", { clear = true }),
-    pattern = "codecompanion",
-    command = "Markview attach",
-  })
 end)
 
 later(function()
-  require("pde.plugins.codecompanion.spinner"):init()
+  H:init()
 end)
