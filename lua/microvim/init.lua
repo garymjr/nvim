@@ -6,6 +6,14 @@ local M = {}
 ---@field keymaps? table[]
 ---@field autocmds? table[]
 
+local function merge(t1, t2)
+  local new_tbl = vim.deepcopy(t1)
+  for _, item in ipairs(t2) do
+    new_tbl[#new_tbl + 1] = item
+  end
+  return new_tbl
+end
+
 ---@param deps table[]
 function M._load_deps(deps)
   for _, spec in ipairs(deps) do
@@ -101,7 +109,11 @@ function M.setup(opts)
 
   local config = {}
   for k, default in pairs(defaults) do
-    config[k] = vim.tbl_deep_extend("force", default, opts[k] or {})
+    if k == "options" then
+      config[k] = vim.tbl_deep_extend("force", default, opts[k] or {})
+    else
+      config[k] = merge(default, opts[k] or {})
+    end
   end
 
   M._setup(config)
