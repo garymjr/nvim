@@ -1,6 +1,10 @@
 -- -- Fix markdown indentation settings
 -- vim.g.markdown_recommended_style = 0
 
+vim.g.copilot_filetypes = {
+  [""] = false,
+}
+
 return {
   clipboard = vim.env.SSH_TTY and "" or "unnamedplus",
   completeopt = "menu,menuone,noselect",
@@ -15,7 +19,7 @@ return {
     diff = "╱",
     eob = " ",
   },
-  foldexpr = "v:lua.PDE.util.foldexpr()",
+  foldexpr = "v:lua.MicroVim.util.foldexpr()",
   foldlevel = 99,
   foldmethod = "expr",
   formatoptions = "jcroqlnt",
@@ -33,16 +37,6 @@ return {
   relativenumber = true,
   ruler = false,
   scrolloff = 4,
-  sessionoptions = {
-    "buffers",
-    "curdir",
-    "tabpages",
-    "winsize",
-    "help",
-    "globals",
-    "skiprtp",
-    "folds",
-  },
   shiftround = true,
   shiftwidth = 2,
   shortmess = { W = true, I = true, c = true, C = true },
