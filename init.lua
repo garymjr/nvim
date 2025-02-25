@@ -19,5 +19,11 @@ require("mini.deps").setup { path = { package = path_package } }
 require("microvim").setup {
   deps = {
     { source = "olimorris/codecompanion.nvim", depends = { "nvim-lua/plenary.nvim" } },
+    { source = "ribru17/bamboo.nvim" },
+    {
+      source = "catppuccin/nvim",
+      name = "catppuccin",
+    },
+    { source = "olivercederborg/poimandres.nvim" },
   },
 }

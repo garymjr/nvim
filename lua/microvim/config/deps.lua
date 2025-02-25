@@ -30,11 +30,6 @@ return {
     },
   },
   { source = "nvim-treesitter/nvim-treesitter-context" },
-  {
-    source = "catppuccin/nvim",
-    name = "catppuccin",
-  },
   { source = "MeanderingProgrammer/render-markdown.nvim" },
-  { source = "olivercederborg/poimandres.nvim" },
   { source = "b0o/SchemaStore.nvim" },
 }
