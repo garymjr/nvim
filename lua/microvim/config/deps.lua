@@ -19,6 +19,7 @@ return {
       "williamboman/mason-lspconfig.nvim",
     },
   },
+  { source = "WhoIsSethDaniel/mason-tool-installer.nvim" },
   { source = "folke/lazydev.nvim" },
   {
     source = "nvim-treesitter/nvim-treesitter",

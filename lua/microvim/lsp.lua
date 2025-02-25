@@ -34,11 +34,12 @@ function M.setup()
     }, server_opts or {})
 
     vim.lsp.config(server, config)
-
-    if server ~= "*" then
-      vim.lsp.enable(server)
-    end
   end
+
+  local active_servers = vim.tbl_filter(function(value)
+    return value ~= "*"
+  end, vim.tbl_keys(servers))
+  vim.lsp.enable(active_servers)
 end
 
 return M
