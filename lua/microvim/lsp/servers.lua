@@ -13,39 +13,12 @@ end
 local M = {
   ["*"] = {
     on_attach = H.on_attach,
-    root_markers = { ".git" },
   },
-  elixirls = {
-    cmd = { vim.fn.stdpath "data" .. "/mason/bin/elixir-ls" },
-    on_attach = function(_, bufnr)
-      vim.keymap.set("n", "<leader>cp", function()
-        ---@diagnostic disable-next-line: missing-parameter
-        local params = vim.lsp.util.make_position_params()
-        MicroVim.util.execute {
-          command = "manipulatePipes:serverid",
-          arguments = {
-            "toPipe",
-            params.textDocument.uri,
-            params.position.line,
-            params.position.character,
-          },
-        }
-      end, { desc = "To Pipe", buffer = bufnr })
-
-      vim.keymap.set("n", "<leader>cP", function()
-        ---@diagnostic disable-next-line: missing-parameter
-        local params = vim.lsp.util.make_position_params()
-        MicroVim.util.execute {
-          command = "manipulatePipes:serverid",
-          arguments = {
-            "fromPipe",
-            params.textDocument.uri,
-            params.position.line,
-            params.position.character,
-          },
-        }
-      end, { desc = "From Pipe", buffer = bufnr })
-    end,
+  lexical = {
+    cmd = { vim.fn.stdpath "data" .. "/mason/bin/lexical" },
+    filetypes = { "elixir", "eelixir", "heex", "surface" },
+    root_markers = { "mix.exs" },
+    single_file_support = true,
   },
   gopls = {
     settings = {
