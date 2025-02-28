@@ -12,10 +12,12 @@ end
 return {
   {
     "williamboman/mason.nvim",
+    event = "VeryLazy",
     dependencies = {
       "b0o/SchemaStore.nvim",
+      "neovim/nvim-lspconfig",
+      "williamboman/mason-lspconfig.nvim",
     },
-    lazy = false,
     cmd = "Mason",
     keys = {
       { "<leader>cm", "<cmd>Mason<cr>", { desc = "Mason" } },
@@ -44,10 +46,10 @@ return {
         ["*"] = {
           on_attach = H.on_attach,
         },
-        lexical = {
-          cmd = { vim.fn.stdpath "data" .. "/mason/bin/lexical" },
+        elixirls = {
+          cmd = { "elixir-ls" },
           filetypes = { "elixir", "eelixir", "heex", "surface" },
-          root_markers = { "mix.exs" },
+          root_markers = { "mix.exs", ".git" },
           single_file_support = true,
         },
         lua_ls = {
@@ -127,7 +129,7 @@ return {
           single_file_support = true,
         },
         tailwindcss = {
-          cmd = { "tailwindcss-language-server", "--stdio" },
+          cmd = { os.getenv "HOME" .. "/.bun/bin/tailwindcss-language-server", "--stdio" },
           -- filetypes copied and adjusted from tailwindcss-intellisense
           filetypes = {
             -- html
@@ -240,7 +242,7 @@ return {
           },
         },
         vtsls = {
-          cmd = { "vtsls", "--stdio" },
+          cmd = { os.getenv "HOME" .. "/.bun/bin/vtsls", "--stdio" },
           filetypes = {
             "javascript",
             "javascriptreact",
@@ -280,6 +282,7 @@ return {
       },
     },
     config = function(_, opts)
+      require("mason-lspconfig").setup()
       require("mason").setup()
       local mr = require "mason-registry"
       mr:on("package:install:success", function()
@@ -318,10 +321,73 @@ return {
     opts_extend = { "ensure_installed" },
     opts = {
       ensure_installed = {
-        "lua-language-server",
         "stylua",
         "shfmt",
       },
     },
+  },
+  {
+    "mason-tool-installer.nvim",
+    opts = function(_, opts)
+      local plugin = require("lazy.core.config").spec.plugins["mason.nvim"]
+      if not plugin then
+        return opts
+      end
+      local mason_opts = require("lazy.core.plugin").values(plugin, "opts", false)
+      local servers = vim.tbl_filter(function(v)
+        return v ~= "*"
+      end, vim.tbl_keys(mason_opts.servers))
+      opts.ensure_installed = vim.list_extend(opts.ensure_installed, servers or {})
+      return opts
+    end,
+  },
+  {
+    "mason.nvim",
+    init = function()
+      ---@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
+      local progress = vim.defaulttable()
+      vim.api.nvim_create_autocmd("LspProgress", {
+        ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+        callback = function(ev)
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          local value = ev.data.params.value --[[@as {percentage?: number, title?: string, message?: string, kind: "begin" | "report" | "end"}]]
+          if not client or type(value) ~= "table" then
+            return
+          end
+          local p = progress[client.id]
+
+          for i = 1, #p + 1 do
+            if i == #p + 1 or p[i].token == ev.data.params.token then
+              p[i] = {
+                token = ev.data.params.token,
+                msg = ("%3d%% %s%s"):format(
+                  value.kind == "end" and 100 or value.percentage or 100,
+                  value.title or "",
+                  value.message and (" **%s**"):format(value.message) or ""
+                ),
+                done = value.kind == "end",
+              }
+              break
+            end
+          end
+
+          local msg = {} ---@type string[]
+          progress[client.id] = vim.tbl_filter(function(v)
+            return table.insert(msg, v.msg) or not v.done
+          end, p)
+
+          local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+          ---@diagnostic disable-next-line: param-type-mismatch
+          vim.notify(table.concat(msg, "\n"), "info", {
+            id = "lsp_progress",
+            title = client.name,
+            opts = function(notif)
+              notif.icon = #progress[client.id] == 0 and " "
+                or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+            end,
+          })
+        end,
+      })
+    end,
   },
 }
