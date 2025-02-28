@@ -66,3 +66,17 @@ map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
+map("n", "<leader>m", function()
+  vim.cmd "tabnew"
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_set_current_buf(buf)
+  vim.bo[buf].buftype = "nofile"
+  vim.api.nvim_buf_set_name(buf, "Messages")
+  vim.api.nvim_set_current_buf(buf)
+
+  vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = buf })
+
+  local messages = vim.fn.execute "messages"
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(messages, "\n"))
+  vim.cmd.normal "ggdd"
+end, { desc = "Messages" })
