@@ -26,7 +26,7 @@ require("lazy").setup {
     lazy = false,
     version = false,
   },
-  install = { colorscheme = { "poimandres", "habamax" } },
+  install = { colorscheme = { "rose-pine", "habamax" } },
   checker = {
     enabled = true,
     notify = false,

@@ -1,11 +1,12 @@
 return {
   {
     "olivercederborg/poimandres.nvim",
+    enabled = false,
     lazy = false,
     priority = 1000,
     opts = {},
     config = function(_, opts)
-      require("poimandres").setup()
+      require("poimandres").setup(opts)
 
       vim.api.nvim_create_autocmd("ColorScheme", {
         pattern = "poimandres",
@@ -16,6 +17,22 @@ return {
       })
 
       vim.cmd.colorscheme "poimandres"
+    end,
+  },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      variant = "main",
+      styles = {
+        italic = false,
+      },
+    },
+    config = function(_, opts)
+      require("rose-pine").setup(opts)
+      vim.cmd.colorscheme "rose-pine"
     end,
   },
 }
