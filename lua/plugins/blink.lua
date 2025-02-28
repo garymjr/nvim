@@ -34,6 +34,11 @@ return {
         },
       },
       cmdline = {
+        completion = {
+          menu = {
+            auto_show = true,
+          },
+        },
         keymap = {
           ["<tab>"] = { "select_next", "fallback" },
           ["<s-tab>"] = { "select_prev", "fallback" },

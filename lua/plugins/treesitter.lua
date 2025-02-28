@@ -9,6 +9,8 @@ return {
       require "nvim-treesitter.query_predicates"
     end,
     opts = {
+      sync_install = false,
+      auto_install = true,
       ensure_installed = {
         "bash",
         "comment",
@@ -62,6 +64,9 @@ return {
         enable = true,
       },
     },
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+    end
   },
   {
     "nvim-treesitter/nvim-treesitter-context",
