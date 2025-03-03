@@ -3,6 +3,7 @@ return {
     "echasnovski/mini.nvim",
     event = "VeryLazy",
     opts = {
+      bracketed = {},
       git = {},
       statusline = {},
       surround = {
