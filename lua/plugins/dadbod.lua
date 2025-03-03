@@ -2,7 +2,13 @@ return {
   {
     "kristijanhusak/vim-dadbod-ui",
     keys = {
-      { "<leader>D", "<cmd>DBUIToggle<cr>", { desc = "Toggle DBUI" } },
+      {
+        "<leader>D",
+        function()
+          vim.cmd "tabnew | DBUI"
+        end,
+        { desc = "Toggle DBUI" },
+      },
     },
     dependencies = {
       "tpope/vim-dadbod",
