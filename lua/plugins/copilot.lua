@@ -37,6 +37,10 @@ return {
     "github/copilot.vim",
     lazy = false,
     build = ":Copilot status",
+    init = function()
+      vim.g.copilot_integration_id = "vscode-chat"
+      vim.g.copilot_settings = { selectedCompletionModel = "gpt-4o-copilot" }
+    end,
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
