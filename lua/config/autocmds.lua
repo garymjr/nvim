@@ -105,3 +105,11 @@ vim.api.nvim_create_autocmd("LspProgress", {
     })
   end,
 })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function(args)
+    if vim.bo[args.buf].buftype == "prompt" then
+      vim.b[args.buf].minicompletion_disable = true
+    end
+  end,
+})
