@@ -4,7 +4,7 @@ vim.g.mapleader = " "
 vim.g.localmapleader = "\\"
 
 opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
-opt.completeopt = "menu,menuone,noselect"
+opt.completeopt = { "menu", "menuone", "noselect", "popup" }
 opt.conceallevel = 2
 opt.confirm = true
 opt.expandtab = true
