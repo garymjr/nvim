@@ -48,13 +48,72 @@ return {
           on_attach = H.on_attach,
         },
         elixirls = {
-          cmd = { "elixir-ls" },
+          cmd = { vim.fn.stdpath "data" .. "/mason/bin/elixir-ls" },
           filetypes = { "elixir", "eelixir", "heex", "surface" },
           root_markers = { "mix.exs", ".git" },
           single_file_support = true,
         },
+        eslint = {
+          cmd = { vim.fn.stdpath "data" .. "/mason/bin/vscode-eslint-language-server", "--stdio" },
+          filetypes = {
+            "javascript",
+            "javascriptreact",
+            "javascript.jsx",
+            "typescript",
+            "typescriptreact",
+            "typescript.tsx",
+            "vue",
+            "svelte",
+            "astro",
+          },
+          root_markers = {
+            ".eslintrc",
+            ".eslintrc.js",
+            ".eslintrc.cjs",
+            ".eslintrc.yaml",
+            ".eslintrc.yml",
+            ".eslintrc.json",
+            "eslint.config.js",
+            "eslint.config.mjs",
+            "eslint.config.cjs",
+            "eslint.config.ts",
+            "eslint.config.mts",
+            "eslint.config.cts",
+          },
+          settings = {
+            codeAction = {
+              disableRuleComment = {
+                enable = true,
+                location = "separateLine",
+              },
+              showDocumentation = {
+                enable = true,
+              },
+            },
+            codeActionOnSave = {
+              enable = false,
+              mode = "all",
+            },
+            experimental = {
+              useFlatConfig = true,
+            },
+            format = false,
+            nodePath = "",
+            onIgnoredFiles = "off",
+            packageManager = nil,
+            problems = {
+              shortenToSingleLine = false,
+            },
+            quiet = false,
+            rulesCustomizations = {},
+            run = "onType",
+            useESLintClass = false,
+            validate = "on",
+            workingDirectories = { mode = "auto" },
+          },
+        },
         lua_ls = {
-          cmd = { "lua-language-server" },
+          cmd = { vim.fn.stdpath "data" .. "/mason/bin/lua-language-server" },
           filetypes = { "lua" },
           log_level = vim.lsp.protocol.MessageType.Warning,
           root_markers = {
@@ -83,7 +142,7 @@ return {
           single_file_support = true,
         },
         gopls = {
-          cmd = { "gopls" },
+          cmd = { vim.fn.stdpath "data" .. "/mason/bin/gopls" },
           filetypes = { "go", "gomod", "gowork", "gotmpl" },
           root_markers = { "go.work", "go.mod", ".git" },
           settings = {
@@ -109,7 +168,7 @@ return {
           single_file_support = true,
         },
         jsonls = {
-          cmd = { "vscode-json-language-server", "--stdio" },
+          cmd = { vim.fn.stdpath "data" .. "/mason/bin/vscode-json-language-server", "--stdio" },
           filetypes = { "json", "jsonc" },
           init_options = {
             provideFormatter = true,
@@ -130,7 +189,7 @@ return {
           single_file_support = true,
         },
         tailwindcss = {
-          cmd = { os.getenv "HOME" .. "/.bun/bin/tailwindcss-language-server", "--stdio" },
+          cmd = { vim.fn.stdpath "data" .. "/mason/bin/tailwindcss-language-server", "--stdio" },
           -- filetypes copied and adjusted from tailwindcss-intellisense
           filetypes = {
             -- html
@@ -243,7 +302,7 @@ return {
           },
         },
         vtsls = {
-          cmd = { os.getenv "HOME" .. "/.bun/bin/vtsls", "--stdio" },
+          cmd = { vim.fn.stdpath "data" .. "/mason/bin/vtsls", "--stdio" },
           filetypes = {
             "javascript",
             "javascriptreact",
