@@ -1,6 +1,7 @@
 return {
   {
     "Saghen/blink.cmp",
+    enabled = false,
     version = "*",
     event = "InsertEnter",
     opts_extend = { "sources.default" },

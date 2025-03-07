@@ -7,6 +7,7 @@ function H.on_attach(client, bufnr)
   end
 
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to Definition" })
+  vim.bo[bufnr].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
 end
 
 return {
@@ -301,7 +302,7 @@ return {
           "force",
           {},
           vim.lsp.protocol.make_client_capabilities(),
-          require("blink.cmp").get_lsp_capabilities(),
+          -- require("blink.cmp").get_lsp_capabilities(),
           opts.capabilities or {},
           server_opts.capabilities or {}
         )

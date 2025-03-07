@@ -2,10 +2,17 @@ return {
   {
     "echasnovski/mini.nvim",
     event = "VeryLazy",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+    },
     opts = {
       bracketed = {},
+      completion = {
+        set_vim_settings = false,
+      },
       git = {},
       statusline = {},
+      snippets = {},
       surround = {
         mappings = {
           add = "gsa",
@@ -86,6 +93,15 @@ return {
           { mode = "n", keys = "<leader>a", desc = "ai" },
           { mode = "v", keys = "<leader>a", desc = "ai" },
         },
+      }
+    end,
+  },
+  {
+    "mini.nvim",
+    opts = function(_, opts)
+      local gen_loader = require("mini.snippets").gen_loader
+      opts.snippets = {
+        gen_loader.from_lang(),
       }
     end,
   },
