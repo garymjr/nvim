@@ -50,7 +50,7 @@ return {
         elixirls = {
           cmd = { vim.fn.stdpath "data" .. "/mason/bin/elixir-ls" },
           filetypes = { "elixir", "eelixir", "heex", "surface" },
-          root_markers = { "mix.exs", ".git" },
+          root_markers = { "mix.exs" },
           single_file_support = true,
         },
         eslint = {
@@ -124,7 +124,6 @@ return {
             "stylua.toml",
             "selene.toml",
             "selene.yml",
-            ".git",
           },
           settings = {
             Lua = {
@@ -144,7 +143,7 @@ return {
         gopls = {
           cmd = { vim.fn.stdpath "data" .. "/mason/bin/gopls" },
           filetypes = { "go", "gomod", "gowork", "gotmpl" },
-          root_markers = { "go.work", "go.mod", ".git" },
+          root_markers = { "go.work", "go.mod" },
           settings = {
             gopls = {
               gofumpt = true,
@@ -177,7 +176,6 @@ return {
             new_config.settings.json.schemas = new_config.settings.json.schemas or {}
             vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
           end,
-          root_markers = { ".git" },
           settings = {
             json = {
               format = {
@@ -192,7 +190,6 @@ return {
           cmd = { vim.fn.stdpath "data" .. "/mason/bin/tailwindcss-language-server", "--stdio" },
           -- filetypes copied and adjusted from tailwindcss-intellisense
           filetypes = {
-            -- html
             "aspnetcorerazor",
             "astro",
             "astro-markdown",
@@ -201,11 +198,11 @@ return {
             "django-html",
             "htmldjango",
             "edge",
-            "eelixir", -- vim ft
+            "eelixir",
             "elixir",
             "ejs",
             "erb",
-            "eruby", -- vim ft
+            "eruby",
             "gohtml",
             "gohtmltmpl",
             "haml",
@@ -227,7 +224,6 @@ return {
             "razor",
             "slim",
             "twig",
-            -- css
             "css",
             "less",
             "postcss",
@@ -235,14 +231,12 @@ return {
             "scss",
             "stylus",
             "sugarss",
-            -- js
             "javascript",
             "javascriptreact",
             "reason",
             "rescript",
             "typescript",
             "typescriptreact",
-            -- mixed
             "vue",
             "svelte",
             "templ",
@@ -298,7 +292,6 @@ return {
             "postcss.config.mjs",
             "postcss.config.ts",
             "package.json",
-            ".git",
           },
         },
         vtsls = {
@@ -311,7 +304,7 @@ return {
             "typescriptreact",
             "typescript.tsx",
           },
-          root_markers = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
+          root_markers = { "tsconfig.json", "package.json", "jsconfig.json" },
           settings = {
             complete_function_calls = true,
             vtsls = {

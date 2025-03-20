@@ -36,7 +36,6 @@ return {
   {
     "github/copilot.vim",
     lazy = false,
-    build = ":Copilot status",
     init = function()
       vim.g.copilot_integration_id = "vscode-chat"
       vim.g.copilot_settings = { selectedCompletionModel = "gpt-4o-copilot" }
@@ -95,7 +94,7 @@ return {
         auto_insert_mode = false,
         question_header = "  " .. user .. " ",
         answer_header = "  Copilot ",
-        model = "gemini-2.0-flash-001",
+        model = "claude-3.5-sonnet",
         prompts = {
           Commit = {
             selection = false,
@@ -112,6 +111,9 @@ return {
           accept_diff = {
             normal = "ga",
             insert = "<C-a>",
+          },
+          toggle_sticky = {
+            normal = "gp",
           },
         },
       }

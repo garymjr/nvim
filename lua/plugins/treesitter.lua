@@ -66,7 +66,11 @@ return {
     },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
-    end
+
+      vim.filetype.add {
+        ex = "elixir",
+      }
+    end,
   },
   {
     "nvim-treesitter/nvim-treesitter-context",
